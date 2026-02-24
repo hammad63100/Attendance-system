@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Campus {
+  id        String   @id @default(uuid())
+  name      String
+  devices   Device[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Device {
+  id             String        @id @default(uuid())
+  name           String
+  ip             String
+  port           Int
+  campusId       String?
+  status         String        @default("OFFLINE") // ONLINE, OFFLINE
+  lastSyncTime   DateTime?
+  timezone       String        @default("+05:00")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  campus         Campus?       @relation(fields: [campusId], references: [id])
+  userMappings   UserMapping[]
+  rawLogs        RawLog[]
+}
+
+model UserMapping {
+  id             String    @id @default(uuid())
+  systemUserId   String
+  deviceUserId   String
+  deviceId       String
+  role           String    @default("STUDENT") // STUDENT, TEACHER
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  device         Device    @relation(fields: [deviceId], references: [id])
+
+  @@unique([deviceId, deviceUserId]) 
+}
+
+model RawLog {
+  id             String    @id @default(uuid())
+  deviceId       String
+  deviceUserId   String
+  logTime        DateTime
+  verifyType     String    // e.g., "finger"
+  inOut          String?   // e.g., "IN", "OUT"
+  rawPayload     Json?
+  createdAt      DateTime  @default(now())
+
+  device         Device    @relation(fields: [deviceId], references: [id])
+}
+
+model ProcessedAttendance {
+  id                String    @id @default(uuid())
+  userId            String    // Maps to systemUserId
+  date              DateTime  @db.Date
+  firstCheckIn      DateTime?
+  lastCheckOut      DateTime?
+  status            String    // "PRESENT", "LATE", "ABSENT", "LEAVE"
+  minutesLate       Int       @default(0)
+  sourceDeviceId    String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Subject {
+  id          String       @id @default(uuid())
+  name        String
+  code        String       @unique
+  periods     Period[]
+  enrollments Enrollment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Period {
+  id          String   @id @default(uuid())
+  name        String   // e.g., "1st Period"
+  startTime   String   // e.g., "08:30" (format HH:mm)
+  endTime     String   // e.g., "09:20"
+  subjectId   String?
+  
+  subject     Subject? @relation(fields: [subjectId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Enrollment {
+  id           String   @id @default(uuid())
+  systemUserId String
+  subjectId    String
+  
+  subject      Subject  @relation(fields: [subjectId], references: [id])
+  student      Student? @relation(fields: [systemUserId], references: [studentId])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([systemUserId, subjectId])
+}
+
+model Student {
+  id          String   @id @default(uuid())
+  studentId   String   @unique // The system systemUserId
+  firstName   String
+  lastName    String?
+  fatherName  String?
+  cnic        String?  @unique
+  email       String?
+  phone       String?
+  fingerData  String?  @db.Text // Store base64 representation of fingerprint template
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  enrollments Enrollment[]
+}

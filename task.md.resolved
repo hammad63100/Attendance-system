@@ -1,0 +1,34 @@
+# Biometric Attendance Management System
+
+- [x] Project Initialization
+  - [x] Set up NestJS backend project in `backend` folder
+  - [x] Configure PostgreSQL database connection using Prisma ORM
+  - [x] Set up environment variables and basic configuration
+- [ ] Database Schema Design
+  - [ ] Create `Device` model
+  - [ ] Create `User` mapping model (System ID to Device ID)
+  - [ ] Create `RawLog` model for device sync logs
+  - [ ] Create `ProcessedAttendance` model
+  - [ ] Create University specific models (Periods, Subjects, Enrollments)
+- [ ] Device Management Module
+  - [ ] API for CRUD operations on devices
+  - [ ] Device connection test API
+  - [ ] Device status monitoring (Online/Offline)
+- [ ] Log Sync Module
+  - [ ] API for manual log upload (USB/File)
+  - [ ] Webhook for real-time push logs
+  - [ ] Background scheduler (Cron) for pulling logs via TCP/IP
+  - [ ] Store logs in `RawLog` table securely
+- [ ] Attendance Processing Engine
+  - [ ] Background job to process new `RawLog` entries
+  - [ ] Implement fraud prevention (duplicate scans, time manipulation)
+  - [ ] Handle daily status updates (Present, Late, Absent)
+  - [ ] Period/Subject-based attendance logic for universities
+- [ ] Admin & Reporting APIs
+  - [ ] Fetch attendance with filters (campus, date, student, etc.)
+  - [ ] Export daily/monthly attendance to PDF
+  - [ ] Real-time alerts (Offline device, low attendance)
+- [ ] Authentication & Security
+  - [ ] JWT role-based access control
+  - [ ] API security guards
+
