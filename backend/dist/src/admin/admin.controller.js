@@ -26,6 +26,24 @@ let AdminController = class AdminController {
     exportAttendance(filters) {
         return this.adminService.generateAttendancePDF(filters);
     }
+    async exportExcel(filters, res) {
+        const buffer = await this.adminService.exportExcel(filters);
+        res.set({
+            'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition': `attachment; filename="attendance-report-${new Date().toISOString().split('T')[0]}.xlsx"`,
+            'Content-Length': buffer.length
+        });
+        res.end(buffer);
+    }
+    getDashboardStats() {
+        return this.adminService.getDashboardStats();
+    }
+    markLeave(body) {
+        return this.adminService.markLeave(body.userId, body.date);
+    }
+    getSubjects() {
+        return this.adminService.getSubjects();
+    }
 };
 exports.AdminController = AdminController;
 __decorate([
@@ -42,6 +60,33 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "exportAttendance", null);
+__decorate([
+    (0, common_1.Get)('attendance/export-excel'),
+    __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AdminController.prototype, "exportExcel", null);
+__decorate([
+    (0, common_1.Get)('dashboard-stats'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "getDashboardStats", null);
+__decorate([
+    (0, common_1.Post)('attendance/leave'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "markLeave", null);
+__decorate([
+    (0, common_1.Get)('subjects'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "getSubjects", null);
 exports.AdminController = AdminController = __decorate([
     (0, common_1.Controller)('admin'),
     __metadata("design:paramtypes", [admin_service_1.AdminService])

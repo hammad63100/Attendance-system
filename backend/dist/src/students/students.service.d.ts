@@ -7,10 +7,10 @@ export declare class StudentsService {
         createdAt: Date;
         updatedAt: Date;
         studentId: string;
+        cnic: string | null;
         firstName: string;
         lastName: string | null;
         fatherName: string | null;
-        cnic: string | null;
         email: string | null;
         phone: string | null;
         fingerData: string | null;
@@ -20,10 +20,10 @@ export declare class StudentsService {
         createdAt: Date;
         updatedAt: Date;
         studentId: string;
+        cnic: string | null;
         firstName: string;
         lastName: string | null;
         fatherName: string | null;
-        cnic: string | null;
         email: string | null;
         phone: string | null;
         fingerData: string | null;
@@ -37,15 +37,17 @@ export declare class StudentsService {
         email?: string;
         phone?: string;
         fingerData?: string;
+        className?: string;
+        section?: string;
     }): Promise<{
         id: string;
         createdAt: Date;
         updatedAt: Date;
         studentId: string;
+        cnic: string | null;
         firstName: string;
         lastName: string | null;
         fatherName: string | null;
-        cnic: string | null;
         email: string | null;
         phone: string | null;
         fingerData: string | null;
@@ -55,10 +57,10 @@ export declare class StudentsService {
         createdAt: Date;
         updatedAt: Date;
         studentId: string;
+        cnic: string | null;
         firstName: string;
         lastName: string | null;
         fatherName: string | null;
-        cnic: string | null;
         email: string | null;
         phone: string | null;
         fingerData: string | null;
@@ -68,10 +70,10 @@ export declare class StudentsService {
         createdAt: Date;
         updatedAt: Date;
         studentId: string;
+        cnic: string | null;
         firstName: string;
         lastName: string | null;
         fatherName: string | null;
-        cnic: string | null;
         email: string | null;
         phone: string | null;
         fingerData: string | null;

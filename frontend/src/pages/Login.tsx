@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Fingerprint, Lock, User } from 'lucide-react';
+import { Fingerprint, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
 import './Login.css';
 
 export const Login = () => {
@@ -19,12 +19,9 @@ export const Login = () => {
         setError('');
 
         try {
-            // Mocking the backend call to our NestJS dummy auth endpoint
             const response = await fetch('http://localhost:3000/auth/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
             });
 
@@ -43,49 +40,68 @@ export const Login = () => {
     };
 
     return (
-        <div className="login-container">
-            <div className="login-card glass-panel animate-fade-in">
-                <div className="login-header">
-                    <div className="logo-container pulse-glow-animation">
-                        <Fingerprint size={48} className="text-secondary" />
+        <div className="login-wrapper">
+            {/* Left Side: Brand Showcase */}
+            <div className="login-brand-side">
+                <div className="brand-content animate-fade-in">
+                    <div className="logo-icon-large pulse-glow-animation animate-float">
+                        <Fingerprint size={56} color="white" />
                     </div>
-                    <h1>BioSync</h1>
-                    <p>Biometric Attendance System</p>
+                    <h1 className="brand-title">BioSync System</h1>
+                    <p className="brand-subtitle">The next-generation biometric workforce management solution seamlessly integrated for enterprise environments.</p>
                 </div>
+                <div className="brand-deco-circle-1"></div>
+                <div className="brand-deco-circle-2"></div>
+            </div>
 
-                {error && <div className="error-message animate-fade-in">{error}</div>}
-
-                <form onSubmit={handleSubmit} className="login-form">
-                    <div className="input-group">
-                        <User className="input-icon" size={20} />
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
+            {/* Right Side: Login Form */}
+            <div className="login-form-side">
+                <div className="login-card glass-panel animate-fade-in-delayed">
+                    <div className="login-header">
+                        <h2>Welcome Back</h2>
+                        <p>Please enter your credentials to continue</p>
                     </div>
 
-                    <div className="input-group">
-                        <Lock className="input-icon" size={20} />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
+                    {error && (
+                        <div className="error-message animate-fade-in">
+                            <AlertCircle size={18} />
+                            <span>{error}</span>
+                        </div>
+                    )}
 
-                    <button
-                        type="submit"
-                        className={`login-button ${isLoading ? 'loading' : ''}`}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Authenticating...' : 'Sign In'}
-                    </button>
-                </form>
+                    <form onSubmit={handleSubmit} className="login-form">
+                        <div className="input-group">
+                            <User className="input-icon" size={20} />
+                            <input
+                                type="text"
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <Lock className="input-icon" size={20} />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className={`login-button ${isLoading ? 'loading' : ''}`}
+                            disabled={isLoading}
+                        >
+                            <span>{isLoading ? 'Authenticating...' : 'Sign In'}</span>
+                            {!isLoading && <ArrowRight size={20} />}
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     );

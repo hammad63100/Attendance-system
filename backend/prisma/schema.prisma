@@ -114,6 +114,8 @@ model Student {
   lastName    String?
   fatherName  String?
   cnic        String?  @unique
+  className   String?
+  section     String?
   email       String?
   phone       String?
   fingerData  String?  @db.Text // Store base64 representation of fingerprint template

@@ -84,30 +84,30 @@ export const Simulator = () => {
                 </div>
 
                 <div className="glass-panel p-6 w-full max-w-lg">
-                    <form onSubmit={handleSimulate} className="flex flex-col gap-5">
+                    <form onSubmit={handleSimulate} className="flex flex-col gap-6">
                         <div className="filter-group">
-                            <label>Target Device</label>
+                            <label className="text-sm font-semibold text-muted mb-2 block">Target Device</label>
                             <div className="input-with-icon">
-                                <Server size={18} />
+                                <Server size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
                                 <select
                                     value={selectedDevice}
                                     onChange={e => setSelectedDevice(e.target.value)}
-                                    className="w-full bg-transparent border-none text-main focus:outline-none"
-                                    style={{ padding: '10px 12px 10px 38px', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.4)', appearance: 'none' }}
+                                    className="glass-input w-full pl-11 cursor-pointer appearance-none"
                                 >
                                     <option value="" disabled>Select a device</option>
-                                    {devices.map(d => <option key={d.id} value={d.id} className="bg-dark">{d.name} ({d.ip})</option>)}
+                                    {devices.map(d => <option key={d.id} value={d.id} className="bg-darker">{d.name} ({d.ip})</option>)}
                                 </select>
                             </div>
                         </div>
 
                         <div className="filter-group">
-                            <label>Simulated User ID</label>
+                            <label className="text-sm font-semibold text-muted mb-2 block">Simulated User ID</label>
                             <div className="input-with-icon">
-                                <UserCheck size={18} />
+                                <UserCheck size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
                                 <input
                                     type="text"
                                     required
+                                    className="glass-input w-full pl-11"
                                     placeholder="e.g. 101, 102..."
                                     value={userId}
                                     onChange={e => setUserId(e.target.value)}
@@ -116,12 +116,13 @@ export const Simulator = () => {
                         </div>
 
                         <div className="filter-group">
-                            <label>Number of Logs to Generate</label>
+                            <label className="text-sm font-semibold text-muted mb-2 block">Number of Logs to Generate</label>
                             <div className="input-with-icon">
-                                <Activity size={18} />
+                                <Activity size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
                                 <input
                                     type="number"
                                     min="1" max="50"
+                                    className="glass-input w-full pl-11"
                                     value={logCount}
                                     onChange={e => setLogCount(parseInt(e.target.value) || 1)}
                                 />
@@ -130,7 +131,7 @@ export const Simulator = () => {
 
                         <button
                             type="submit"
-                            className={`btn btn-primary mt-2 justify-center py-3 ${sending ? 'opacity-70 pointer-events-none' : ''}`}
+                            className={`btn-primary mt-4 flex items-center justify-center gap-2 py-3 ${sending ? 'opacity-70 pointer-events-none' : ''}`}
                             disabled={sending || devices.length === 0}
                         >
                             {sending ? <RefreshCw className="animate-spin" size={20} /> : <Send size={20} />}
@@ -141,7 +142,7 @@ export const Simulator = () => {
             </div>
 
             <div className="w-1/3 glass-panel p-6 flex flex-col gap-4">
-                <h3 className="font-semibold text-lg flex items-center gap-2">
+                <h3 className="font-semibold text-lg flex items-center gap-2 text-main">
                     <Activity size={20} className="text-secondary" /> Recent Transmissions
                 </h3>
                 <div className="flex-1 overflow-y-auto pr-2 flex flex-col gap-3">
@@ -149,14 +150,14 @@ export const Simulator = () => {
                         <p className="text-muted text-sm text-center mt-10">No simulated logs sent yet during this session.</p>
                     ) : (
                         logsList.map((log, i) => (
-                            <div key={i} className="animate-fade-in text-sm" style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.6)' }}>
-                                <div className="flex justify-between mb-1">
-                                    <span className="font-mono text-primary">User: {log.userId}</span>
-                                    <span className="text-xs text-muted">[{log.inOut}]</span>
+                            <div key={i} className="animate-fade-in text-sm" style={{ padding: '16px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
+                                <div className="flex justify-between mb-2">
+                                    <span className="font-mono text-primary font-semibold">User: {log.userId}</span>
+                                    <span className="text-xs text-muted font-bold tracking-wider">[{log.inOut}]</span>
                                 </div>
-                                <div className="text-xs text-muted flex justify-between">
+                                <div className="text-xs text-muted flex justify-between items-center">
                                     <span>{new Date(log.timestamp).toLocaleString()}</span>
-                                    <span className="text-success">{log.status}</span>
+                                    <span className="text-success font-semibold px-2 py-1 bg-green-500/10 rounded-md">{log.status}</span>
                                 </div>
                             </div>
                         ))

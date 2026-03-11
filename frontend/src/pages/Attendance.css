@@ -6,6 +6,12 @@
     gap: 24px;
 }
 
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
 .filters-card {
     padding: 24px;
 }
@@ -13,19 +19,20 @@
 .filter-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 24px;
 }
 
 .filter-header h3 {
     font-size: 18px;
     font-weight: 600;
+    color: var(--text-main);
 }
 
 .filters-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
     align-items: flex-end;
 }
 
@@ -38,7 +45,29 @@
 .filter-group label {
     font-size: 13px;
     color: var(--text-muted);
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.glass-input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: rgba(15, 23, 42, 0.3);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    color-scheme: dark;
+}
+
+.glass-input:focus {
+    outline: none;
+    border-color: rgba(115, 17, 212, 0.4);
+    background: rgba(15, 23, 42, 0.5);
+    box-shadow: 0 0 0 4px rgba(115, 17, 212, 0.1);
 }
 
 .input-with-icon {
@@ -49,32 +78,57 @@
 
 .input-with-icon svg {
     position: absolute;
-    left: 12px;
+    left: 16px;
     color: var(--text-muted);
     pointer-events: none;
+    transition: color 0.3s ease;
 }
 
-.input-with-icon input {
-    width: 100%;
-    padding: 10px 12px 10px 38px;
-    border-radius: 8px;
-    border: 1px solid var(--glass-border);
-    background: rgba(255, 255, 255, 0.4);
+.input-with-icon .glass-input {
+    padding-left: 48px;
+}
+
+.input-with-icon .glass-input:focus ~ svg {
+    color: var(--primary);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(115, 17, 212, 0.5);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.05);
     color: var(--text-main);
-    font-family: inherit;
-    transition: all 0.2s;
-    color-scheme: light;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.input-with-icon input:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: #ffffff;
+.btn-glass:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
-.filter-actions {
-    display: flex;
-    gap: 12px;
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .table-container {
@@ -86,85 +140,102 @@
 
 .attendance-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     text-align: left;
 }
 
 .attendance-table th {
-    padding: 16px 20px;
+    padding: 18px 24px;
     font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     color: var(--text-muted);
-    font-weight: 600;
+    font-weight: 700;
     border-bottom: 1px solid var(--glass-border);
-    background: rgba(128, 0, 0, 0.05);
+    background: rgba(26, 26, 39, 0.6);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .attendance-table td {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--glass-border);
-    font-size: 14px;
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-size: 15px;
+    transition: background-color 0.2s;
 }
 
 .table-row-animate {
     opacity: 0;
     animation: fadeIn 0.4s ease forwards;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.table-row-animate:hover {
-    background-color: rgba(128, 0, 0, 0.03);
+.table-row-animate:hover td {
+    background: rgba(115, 17, 212, 0.08);
 }
 
 .time-cell {
     display: flex;
     align-items: center;
-    gap: 6px;
-}
-
-.font-mono {
-    font-family: monospace;
-    color: var(--primary);
-    letter-spacing: 0.5px;
+    gap: 8px;
+    font-weight: 500;
 }
 
 .status-pill {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .status-present {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--success);
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399; /* emerald-400 */
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
 }
 
 .status-late {
-    background: rgba(245, 158, 11, 0.1);
-    color: var(--warning);
-    border: 1px solid rgba(245, 158, 11, 0.2);
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24; /* amber-400 */
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
 }
 
 .status-absent {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171; /* red-400 */
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
 
-/* Make table scrollable while headers remain sticky */
-.table-container>div {
+.status-leave {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa; /* blue-400 */
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.table-container > div {
     overflow-y: auto;
     max-height: 100%;
 }
 
-.attendance-table thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+.table-container > div::-webkit-scrollbar {
+    width: 6px;
+}
+.table-container > div::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 }
 
 .export-btn {
@@ -184,11 +255,6 @@
 }
 
 @keyframes shimmer {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(100%);
-    }
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }

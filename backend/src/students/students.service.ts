@@ -17,8 +17,7 @@ export class StudentsService {
         return student;
     }
 
-    async create(data: { studentId: string, firstName: string, lastName?: string, fatherName?: string, cnic?: string, email?: string, phone?: string, fingerData?: string }) {
-        // Upsert or create, assuming simple create here
+    async create(data: { studentId: string, firstName: string, lastName?: string, fatherName?: string, cnic?: string, email?: string, phone?: string, fingerData?: string, className?: string, section?: string }) {
         return this.prisma.student.create({
             data
         });

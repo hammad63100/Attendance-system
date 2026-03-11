@@ -18,6 +18,8 @@ export const Students = () => {
     const [cnic, setCnic] = useState('');
     const [email, setEmail] = useState('');
     const [fingerData, setFingerData] = useState('');
+    const [className, setClassName] = useState('');
+    const [section, setSection] = useState('');
     const [isScanning, setIsScanning] = useState(false);
 
     const fetchStudents = async () => {
@@ -92,7 +94,7 @@ export const Students = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ studentId, firstName, lastName, fatherName, cnic, email, fingerData })
+                body: JSON.stringify({ studentId, firstName, lastName, fatherName, cnic, email, fingerData, className, section })
             });
 
             if (res.ok) {
@@ -115,6 +117,8 @@ export const Students = () => {
         setCnic(student.cnic || '');
         setEmail(student.email || '');
         setFingerData(student.fingerData || '');
+        setClassName(student.className || '');
+        setSection(student.section || '');
         setShowModal(true);
     };
 
@@ -148,6 +152,8 @@ export const Students = () => {
         setCnic('');
         setEmail('');
         setFingerData('');
+        setClassName('');
+        setSection('');
     };
 
     return (
@@ -166,7 +172,7 @@ export const Students = () => {
                 </button>
             </div>
 
-            <div className="glass-panel flex-1 flex-col" style={{ display: 'flex', overflow: 'hidden' }}>
+            <div className="glass-panel students-list-panel">
                 <div className="search-bar-container">
                     <div className="search-input-wrapper">
                         <Search className="search-icon" size={18} />
@@ -182,9 +188,9 @@ export const Students = () => {
                     {isLoading ? (
                         <div className="flex-center h-full text-muted">Loading students...</div>
                     ) : students.length === 0 ? (
-                        <div className="flex-center h-full flex-col gap-4 text-muted">
-                            <User size={48} style={{ opacity: 0.2 }} />
-                            <p>No students found. Add your first student.</p>
+                        <div className="flex-center h-full flex-col gap-4 text-muted pt-10 pb-10">
+                            <User size={64} className="opacity-20 text-muted" />
+                            <p className="text-lg">No students found. Add your first student.</p>
                         </div>
                     ) : (
                         <div className="students-grid">
@@ -196,6 +202,9 @@ export const Students = () => {
                                     <div className="student-info">
                                         <h3>{student.firstName} {student.lastName}</h3>
                                         <p>ID: {student.studentId}</p>
+                                        <div className="student-details-meta">
+                                            Class: {student.className || 'N/A'} {student.section ? `| Sec: ${student.section}` : ''}
+                                        </div>
                                     </div>
                                     <div className="student-actions">
                                         <button className="action-btn" title="Edit Student" onClick={() => handleEditStudent(student)}>
@@ -245,6 +254,29 @@ export const Students = () => {
                                         value={cnic}
                                         onChange={e => setCnic(e.target.value.replace(/\D/g, ''))}
                                         className="form-input"
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Class *</label>
+                                    <input
+                                        required
+                                        type="text"
+                                        value={className}
+                                        onChange={e => setClassName(e.target.value)}
+                                        className="form-input"
+                                        placeholder="e.g. 10th"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Section</label>
+                                    <input
+                                        type="text"
+                                        value={section}
+                                        onChange={e => setSection(e.target.value)}
+                                        className="form-input"
+                                        placeholder="e.g. A"
                                     />
                                 </div>
                             </div>
